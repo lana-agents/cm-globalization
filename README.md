@@ -2,6 +2,17 @@
 
 CM globalization of finite p-adic fields.
 
+## Status
+
+**Not started.** The repository is the initial project scaffold (a single commit,
+2026-07-20). The library `CmGlobalization` contains only the placeholder module
+`CmGlobalization/Basic.lean`, which has no declarations: there are no definitions or theorems yet
+(and so no `sorry`, `axiom` or `admit`). Everything under *Goals* below is planned, not
+formalised.
+
+No lana-agents repository depends on this one: `iut` and its pinned lana-agents
+dependencies do not `require` it.
+
 ## Goals
 
 Formalise the globalization of a finite extension `L/ℚ_p` to a CM number field with a specified `p`-adic completion.
@@ -19,11 +30,12 @@ Mathlib already contains Krasner-space infrastructure, number-field finite-place
 
 ## Related repositories
 
-An independently established input to the anabelian machinery used by `iut`.
+Intended as an input to the anabelian machinery of `iut`; not used by it.
 
 ## Layout
 
-Lean 4 project pinned to `leanprover/lean4:v4.32.0` with Mathlib at `v4.32.0`.
+Lean 4 project pinned to `leanprover/lean4:v4.32.0` with Mathlib at `v4.32.0`
+(commit `81a5d25`), its only direct dependency.
 Library sources live under `CmGlobalization/`, and every file must be imported from
 the root module `CmGlobalization.lean`.
 
