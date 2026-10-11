@@ -48,8 +48,11 @@ All milestones are done (no `sorry`, no axioms beyond `propext`, `Classical.choi
   `exists_isCMField_denseRange` — `CmGlobalization/Main.lean`.
 * **M7** (done) places and completions: `place ι`, `isEquiv_place`, `exists_norm_eq_rpow`,
   `exists_ringEquiv_of_norm_eq_rpow`, `exists_adicCompletion_ringEquiv`,
-  `exists_ringEquiv_of_place_eq` — `CmGlobalization/Places.lean`; restatement
-  `exists_cmField_globalization'` — `CmGlobalization/MainPlaces.lean`.
+  `exists_ringEquiv_of_place_eq` — `CmGlobalization/Places.lean`; uniqueness of the place above
+  `p` (`algebraNorm_map_eq`, `norm_lt_one_of_mem`, `eq_place_of_natCast_mem`) —
+  `CmGlobalization/PlaceUnique.lean`; restatement `exists_cmField_globalization'` (including:
+  `v₀` is the only place of `F⁺` above `p`, `w₁, w₂` the only places of `F` above `p`/`v₀`) —
+  `CmGlobalization/MainPlaces.lean`.
 
 ## Proof sketch
 
@@ -95,6 +98,16 @@ field and `ι : F →+* L` into an ultrametric normed field with `‖(n : L)‖ 
 * Distinct places: if `place ι = place (ι ∘ c)`, the comparison gives a continuous automorphism
   `τ` of `L` with `τ ∘ ι = ι ∘ c`; continuity and density of `ℚ` in `ℚ_p` make it
   `ℚ_p`-linear, contradicting clause 4. Lying over `v₀`: `c` fixes `F⁺`.
+* Uniqueness above `p`. Let `E` be a number field, `ι : E → L` with `ι(E)` spanning `L` and
+  `[E : ℚ] = [L : ℚ_p]`. For a `ℚ`-basis `b` of `E`, `ι ∘ b` is a `ℚ_p`-basis of `L` and the
+  multiplication matrices agree, so `N_{L/ℚ_p}(ι a) = N_{E/ℚ}(a)`. If `a ∈ P ∋ p` (`P ≠ ⊤`), the
+  constant coefficient `c₀ ∈ ℤ` of `minpoly a` lies in `P ∩ ℤ = pℤ`, so
+  `|N_{E/ℚ}(a)|_p = |c₀|_p^k < 1`; but `‖ι a‖ = |c₀'|^{1/d}` for `c₀'` the constant coefficient
+  of the `ℚ_p`-minimal polynomial (spectral norm), so `‖ι a‖ ≥ 1` would give `|N| ≥ 1`. Hence
+  `P ⊆ place ι`, and maximality gives equality for height-one primes. For `F`: a prime `w ∋ p`
+  other than `w₁, w₂` contains some `a ∉ w₁ ∪ w₂`; then `a ā ∈ w ∩ 𝓞 F⁺` has norm
+  `‖a‖‖ā‖ = 1`, contradicting the `F⁺` statement. (The fundamental identity `∑ e f = n` is not
+  needed; Mathlib has no `e f = [F_v : ℚ_p]` for adic completions.)
 
 The isomorphisms `adicCompletion ≃ L` are ring isomorphisms and homeomorphisms; Mathlib gives
 `v.adicCompletion F` no `ℚ_p`-algebra structure, so `ℚ_p`-linearity is not stated (it holds

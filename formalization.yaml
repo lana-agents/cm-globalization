@@ -58,7 +58,8 @@ status:
     - name: "CmGlobalization.exists_cmField_globalization'"
       file: "CmGlobalization/MainPlaces.lean"
       note: >-
-        For L normed over ℚ_p: w₁ ≠ w₂ : HeightOneSpectrum (𝓞 F) over v₀ : HeightOneSpectrum (𝓞 F⁺); ‖ι x‖, ‖ι (c x)‖,
+        For L normed over ℚ_p: w₁ ≠ w₂ : HeightOneSpectrum (𝓞 F) over v₀ : HeightOneSpectrum (𝓞 F⁺); v₀ is the only
+        prime of 𝓞 F⁺ containing p, and w₁, w₂ are the only primes of 𝓞 F containing p (equivalently over v₀); ‖ι x‖, ‖ι (c x)‖,
         ‖ι y‖ are positive powers of the FinitePlace absolute values; w₁.adicCompletion F, w₂.adicCompletion F and
         v₀.adicCompletion F⁺ are ring-isomorphic and homeomorphic to L, extending ι, ι ∘ c, ι|F⁺.
     - name: "CmGlobalization.exists_adicCompletion_ringEquiv"
@@ -67,6 +68,11 @@ status:
         For a number field F and a dense ι : F →+* L into a complete ultrametric normed field, the place
         place ι = {a ∈ 𝓞 F | ‖ι a‖ < 1} has adicCompletion ≃+* L (homeomorphism extending ι); isEquiv_place
         compares FinitePlace.mk (place ι) with x ↦ ‖ι x‖.
+    - name: "CmGlobalization.eq_place_of_natCast_mem"
+      file: "CmGlobalization/PlaceUnique.lean"
+      note: >-
+        If ι : E →+* L (E a number field, L normed over ℚ_p) has ι(E) spanning L and [E : ℚ] = [L : ℚ_p], every
+        height-one prime of 𝓞 E containing p is place ι (via N_{L/ℚ_p}(ι a) = N_{E/ℚ}(a), algebraNorm_map_eq).
     - name: "CmGlobalization.exists_isCMField_denseRange"
       file: "CmGlobalization/Main.lean"
       note: "A CM number field F : Type u with a ring embedding F →+* L of dense range."

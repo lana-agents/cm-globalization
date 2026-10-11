@@ -34,6 +34,9 @@ spectral norm): there are `w₁ ≠ w₂ : HeightOneSpectrum (𝓞 F)` and
 `v₀ : HeightOneSpectrum (𝓞 F⁺)` with
 
 * `w₁`, `w₂` lying over `v₀` (`comap` of the ideals along `𝓞 F⁺ → 𝓞 F`);
+* uniqueness: a height-one prime of `𝓞 F⁺` contains `p` iff it is `v₀`; a height-one prime of
+  `𝓞 F` contains `p` iff it lies over `v₀` iff it is `w₁` or `w₂` (so `F` has exactly two places
+  above `p`, both with completion `L`);
 * `‖x‖ = |x|_{w₁}^c`, `‖c(x)‖ = |x|_{w₂}^c'`, `‖y‖ = |y|_{v₀}^c''` (`x ∈ F`, `y ∈ F⁺`) for
   positive constants, with `|·|_w = NumberField.FinitePlace.mk w`;
 * ring isomorphisms `w₁.adicCompletion F ≃+* L`, `w₂.adicCompletion F ≃+* L`,
@@ -46,6 +49,11 @@ The general machinery is in `CmGlobalization/Places.lean`: for a number field `F
 identifies the adic completion with `L` when `ι` is dense and `L` complete (uniqueness of
 completions, `exists_ringEquiv_of_norm_eq_rpow`), and `exists_ringEquiv_of_place_eq` shows that
 dense embeddings defining the same place differ by a continuous automorphism of `L`.
+`CmGlobalization/PlaceUnique.lean` proves that `place ι` is the only place above `p` when
+`ι(E)` spans `L` over `ℚ_p` and `[E : ℚ] = [L : ℚ_p]` (`eq_place_of_natCast_mem`), comparing
+`N_{E/ℚ}(a) = N_{L/ℚ_p}(ι a)` (`algebraNorm_map_eq`) with `|N_{L/ℚ_p}(y)| = ‖y‖^n` (spectral
+norm) and `p ∣ N_{E/ℚ}(a)` for `a` in a prime above `p`. This avoids comparing `e·f` with the
+local degree (not available in Mathlib for adic completions).
 
 The argument avoids Krasner's lemma: roots of nearby polynomials come from the inverse function
 theorem (`CmGlobalization/RootNearby.lean`), and primitive elements form an open set

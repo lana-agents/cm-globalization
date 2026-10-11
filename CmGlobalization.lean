@@ -4,6 +4,7 @@ import CmGlobalization.Generator
 import CmGlobalization.Main
 import CmGlobalization.MainPlaces
 import CmGlobalization.MonicOf
+import CmGlobalization.PlaceUnique
 import CmGlobalization.Places
 import CmGlobalization.RealRoots
 import CmGlobalization.RootNearby
