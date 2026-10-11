@@ -24,9 +24,28 @@ prime `p` and a finite extension `L/ℚ_p` (`[Field L] [CharZero L] [Algebra ℚ
   distinct places of `F` above `v₀`, each with completion `L`: `v₀` splits in `F/F⁺`.
 
 "Completion `F_v ≅ L`" is expressed by an embedding `F ↪ L` with dense image (`L` is complete).
-The identification with Mathlib's `NumberField.FinitePlace` / `adicCompletion` is not
-formalised (see `Blueprint.md`, "Design choice"). Corollary `exists_isCMField_denseRange`: there
-is a CM number field `F : Type u` with a ring embedding `F →+* L` of dense range.
+Corollary `exists_isCMField_denseRange`: there is a CM number field `F : Type u` with a ring
+embedding `F →+* L` of dense range.
+
+The same result in terms of Mathlib's places and completions is
+`CmGlobalization.exists_cmField_globalization'` (`CmGlobalization/MainPlaces.lean`), for `L`
+with a norm extending the `p`-adic norm (`[NormedField L] [NormedAlgebra ℚ_[p] L]`, e.g. the
+spectral norm): there are `w₁ ≠ w₂ : HeightOneSpectrum (𝓞 F)` and
+`v₀ : HeightOneSpectrum (𝓞 F⁺)` with
+
+* `w₁`, `w₂` lying over `v₀` (`comap` of the ideals along `𝓞 F⁺ → 𝓞 F`);
+* `‖x‖ = |x|_{w₁}^c`, `‖c(x)‖ = |x|_{w₂}^c'`, `‖y‖ = |y|_{v₀}^c''` (`x ∈ F`, `y ∈ F⁺`) for
+  positive constants, with `|·|_w = NumberField.FinitePlace.mk w`;
+* ring isomorphisms `w₁.adicCompletion F ≃+* L`, `w₂.adicCompletion F ≃+* L`,
+  `v₀.adicCompletion F⁺ ≃+* L` that are homeomorphisms and extend `ι`, `ι ∘ c`, `ι|_{F⁺}`.
+
+The general machinery is in `CmGlobalization/Places.lean`: for a number field `F` and
+`ι : F →+* L` into an ultrametric normed field with `‖(n : L)‖ < 1` (some `n ≠ 0`),
+`place ι` is the height-one prime `{a ∈ 𝓞 F | ‖ι a‖ < 1}`, `isEquiv_place` /
+`exists_norm_eq_rpow` compare `x ↦ ‖ι x‖` with the finite place, `exists_adicCompletion_ringEquiv`
+identifies the adic completion with `L` when `ι` is dense and `L` complete (uniqueness of
+completions, `exists_ringEquiv_of_norm_eq_rpow`), and `exists_ringEquiv_of_place_eq` shows that
+dense embeddings defining the same place differ by a continuous automorphism of `L`.
 
 The argument avoids Krasner's lemma: roots of nearby polynomials come from the inverse function
 theorem (`CmGlobalization/RootNearby.lean`), and primitive elements form an open set

@@ -21,8 +21,9 @@ Let `p` be a prime and `L` a finite extension of `ℚ_p`
    each with completion `L`.
 
 "Completion `F_v ≅ L`" is expressed as "`F ↪ L` with dense image" (`L` is complete, so `L` is
-the completion of `F` for the induced absolute value). Mathlib's `FinitePlace` /
-`adicCompletion` objects are not used (see "Design choice" below).
+the completion of `F` for the induced absolute value). The restatement
+`exists_cmField_globalization'` (milestone M7) expresses it with Mathlib's
+`HeightOneSpectrum` / `FinitePlace` / `adicCompletion` (see "Design choice" below).
 
 ## Milestones
 
@@ -45,6 +46,10 @@ All milestones are done (no `sorry`, no axioms beyond `propext`, `Classical.choi
   `finrank_maximalRealSubfield_cmField`, `complexConj_gamma_ne`) —
   `CmGlobalization/CMField.lean`; main theorem `exists_cmField_globalization` and corollary
   `exists_isCMField_denseRange` — `CmGlobalization/Main.lean`.
+* **M7** (done) places and completions: `place ι`, `isEquiv_place`, `exists_norm_eq_rpow`,
+  `exists_ringEquiv_of_norm_eq_rpow`, `exists_adicCompletion_ringEquiv`,
+  `exists_ringEquiv_of_place_eq` — `CmGlobalization/Places.lean`; restatement
+  `exists_cmField_globalization'` — `CmGlobalization/MainPlaces.lean`.
 
 ## Proof sketch
 
@@ -71,7 +76,26 @@ All milestones are done (no `sorry`, no axioms beyond `propext`, `Classical.choi
 
 The place `v` is encoded by the embedding `ι : F ↪ L` (the inclusion) with dense image; the
 place is `x ↦ ‖ι x‖` for any norm on `L` extending that of `ℚ_p`, and since `L` is complete it
-is the completion of `F` at that place. The package does not identify this with Mathlib's
-`NumberField.FinitePlace F` / `IsDedekindDomain.HeightOneSpectrum.adicCompletion` objects (that
-would be an Ostrowski-type comparison of `x ↦ ‖ι x‖` with a `v`-adic absolute value, plus
-uniqueness of completions); this is a possible follow-up, not needed for the statement above.
+is the completion of `F` at that place. This is the form of `exists_cmField_globalization`.
+
+**M7** identifies this with Mathlib's objects (`CmGlobalization/Places.lean`), for `F` a number
+field and `ι : F →+* L` into an ultrametric normed field with `‖(n : L)‖ < 1`, `n ≠ 0`:
+
+* `a ∈ 𝓞 F ⇒ ‖ι a‖ ≤ 1` (integral over `ℤ`, ultrametric inequality), so
+  `place ι = {a ∈ 𝓞 F | ‖ι a‖ < 1}` is a nonzero prime: a `HeightOneSpectrum (𝓞 F)`.
+* Ostrowski-type comparison: two absolute values on `F` that are `≤ 1` on `𝓞 F` and `< 1`
+  exactly on `v` are equivalent, since every `x ∈ F` is `n/d` or `d/n` with `n ∈ 𝓞 F`,
+  `d ∉ v` (`exists_primeCompl_mul_eq_or_mul_eq`). Hence `FinitePlace.mk (place ι)` is
+  equivalent to `x ↦ ‖ι x‖`, i.e. `‖ι x‖ = |x|_v ^ c` with `c > 0`.
+* Uniqueness of completions: if `f₁ : F → K₁`, `f₂ : F → K₂` are dense into complete normed
+  fields with `‖f₂ x‖ = ‖f₁ x‖ ^ c`, the pulled-back uniform structures on `F` agree; the two
+  `AbstractCompletion`s give `K₁ ≃ᵤ K₂` extending the embeddings, which is a ring map by density.
+  With `K₁ = v.adicCompletion F` (`FinitePlace.norm_embedding`, `denseRange_algebraMap`) this is
+  `exists_adicCompletion_ringEquiv`.
+* Distinct places: if `place ι = place (ι ∘ c)`, the comparison gives a continuous automorphism
+  `τ` of `L` with `τ ∘ ι = ι ∘ c`; continuity and density of `ℚ` in `ℚ_p` make it
+  `ℚ_p`-linear, contradicting clause 4. Lying over `v₀`: `c` fixes `F⁺`.
+
+The isomorphisms `adicCompletion ≃ L` are ring isomorphisms and homeomorphisms; Mathlib gives
+`v.adicCompletion F` no `ℚ_p`-algebra structure, so `ℚ_p`-linearity is not stated (it holds
+automatically for continuous maps, as in the distinctness argument).

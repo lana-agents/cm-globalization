@@ -2,6 +2,8 @@ import CmGlobalization.Approximation
 import CmGlobalization.CMField
 import CmGlobalization.Generator
 import CmGlobalization.Main
+import CmGlobalization.MainPlaces
 import CmGlobalization.MonicOf
+import CmGlobalization.Places
 import CmGlobalization.RealRoots
 import CmGlobalization.RootNearby

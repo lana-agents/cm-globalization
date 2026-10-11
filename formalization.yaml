@@ -15,6 +15,10 @@ project:
     Complete: CmGlobalization.exists_cmField_globalization proves that every finite extension L of ℚ_p
     contains a CM number field F whose maximal real subfield F⁺ is dense in L with ℚ_p ⊗ F⁺ ≅ L, and whose
     place above p splits in F/F⁺; the completion is expressed by a dense embedding F ↪ L.
+    CmGlobalization.exists_cmField_globalization' restates this with Mathlib's HeightOneSpectrum /
+    FinitePlace / adicCompletion: two distinct places w₁ ≠ w₂ of F over a place v₀ of F⁺, whose absolute
+    values are equivalent to the norms induced by the embeddings, with all three adic completions isomorphic
+    to L as topological fields.
   authors:
     - "Claude (Anthropic)"
     - "LANA Project"
@@ -41,7 +45,7 @@ classification:
   msc2020: ["11R21", "11S20", "11G15"]
 
 status:
-  scope: "complete (CM globalization of finite extensions of ℚ_p, completion expressed by a dense embedding)"
+  scope: "complete (CM globalization of finite extensions of ℚ_p, with dense embeddings and with Mathlib's places and adic completions)"
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: []
@@ -51,6 +55,18 @@ status:
       note: >-
         F ⊆ L CM number field; F⁺ dense in L, spans L over ℚ_p, [F⁺ : ℚ] = [L : ℚ_p]; √-(8p-1) ∈ F ∩ ℚ_p and the
         inclusion and its conjugate twist are not related by a ℚ_p-automorphism of L (the place splits in F/F⁺).
+    - name: "CmGlobalization.exists_cmField_globalization'"
+      file: "CmGlobalization/MainPlaces.lean"
+      note: >-
+        For L normed over ℚ_p: w₁ ≠ w₂ : HeightOneSpectrum (𝓞 F) over v₀ : HeightOneSpectrum (𝓞 F⁺); ‖ι x‖, ‖ι (c x)‖,
+        ‖ι y‖ are positive powers of the FinitePlace absolute values; w₁.adicCompletion F, w₂.adicCompletion F and
+        v₀.adicCompletion F⁺ are ring-isomorphic and homeomorphic to L, extending ι, ι ∘ c, ι|F⁺.
+    - name: "CmGlobalization.exists_adicCompletion_ringEquiv"
+      file: "CmGlobalization/Places.lean"
+      note: >-
+        For a number field F and a dense ι : F →+* L into a complete ultrametric normed field, the place
+        place ι = {a ∈ 𝓞 F | ‖ι a‖ < 1} has adicCompletion ≃+* L (homeomorphism extending ι); isEquiv_place
+        compares FinitePlace.mk (place ι) with x ↦ ‖ι x‖.
     - name: "CmGlobalization.exists_isCMField_denseRange"
       file: "CmGlobalization/Main.lean"
       note: "A CM number field F : Type u with a ring embedding F →+* L of dense range."
@@ -77,8 +93,11 @@ automation:
 
 fidelity:
   divergences: >-
-    F_v ≃ L is stated as an embedding F ↪ L with dense image (L complete), not via Mathlib's
-    NumberField.FinitePlace / adicCompletion. The splitting of the place is stated as: γ = √-(8p-1) ∈ F ∩ ℚ_p and
+    In exists_cmField_globalization, F_v ≃ L is stated as an embedding F ↪ L with dense image (L complete);
+    exists_cmField_globalization' states it with Mathlib's HeightOneSpectrum / FinitePlace / adicCompletion
+    (for L with a norm extending the p-adic norm; absolute values agree up to a positive power, completions are
+    ring isomorphisms + homeomorphisms rather than ℚ_p-algebra isomorphisms, as adicCompletion F carries no
+    ℚ_p-algebra structure in Mathlib). The splitting of the place is stated as: γ = √-(8p-1) ∈ F ∩ ℚ_p and
     no ℚ_p-automorphism of L intertwines the inclusion with its twist by complex conjugation.
 
 review:
