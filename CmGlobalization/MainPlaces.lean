@@ -60,10 +60,11 @@ theorem algebraMap_eq_of_continuous (τ : L →+* L) (hτ : Continuous τ) (a : 
 /-- **CM globalization, with places and completions** ([AbsTopIII], Appendix, (CM1)). Let `L` be
 a finite extension of `ℚ_p` with a norm extending the `p`-adic norm. There are a CM number field
 `F ⊆ L`, two distinct finite places `w₁ ≠ w₂` of `F` and a finite place `v₀` of `F⁺` such that
-`w₁, w₂` lie over `v₀`, `v₀` is the only place of `F⁺` above `p`, `w₁, w₂` are the only places
-of `F` above `p` (equivalently above `v₀`), the absolute values of `w₁`, `w₂`, `v₀` are equivalent to `x ↦ ‖x‖`,
-`x ↦ ‖x̄‖`, `x ↦ ‖x‖` respectively, and the three completions are isomorphic to `L` (as
-topological fields, compatibly with these embeddings). In particular `v₀` splits in `F/F⁺`. -/
+`w₁, w₂` lie over `v₀`, `v₀` is the only place of `F⁺` above `p`, `w₁, w₂` are the only
+places of `F` above `p` (equivalently above `v₀`), the absolute values of `w₁`, `w₂`, `v₀` are
+equivalent to `x ↦ ‖x‖`, `x ↦ ‖x̄‖`, `x ↦ ‖x‖` respectively, and the three completions are
+isomorphic to `L` (as topological fields, compatibly with these embeddings).
+In particular `v₀` splits in `F/F⁺`. -/
 theorem exists_cmField_globalization' (p : ℕ) [Fact p.Prime] (L : Type*) [NormedField L]
     [CharZero L] [NormedAlgebra ℚ_[p] L] [FiniteDimensional ℚ_[p] L] :
     ∃ (F : IntermediateField ℚ L) (_ : NumberField F) (_ : IsCMField F)

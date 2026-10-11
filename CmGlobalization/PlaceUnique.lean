@@ -43,9 +43,10 @@ section Norm
 `σ : K → K'`, then `φ` transports coordinates: `b'.repr (φ z) i = σ (b.repr z i)`. -/
 theorem repr_map_eq_of_basis {K K' E L : Type*} [CommRing K] [CommRing K'] [CommRing E]
     [CommRing L] [Algebra K E] [Algebra K' L] (σ : K →+* K') (φ : E →+* L)
-    (hφ : ∀ c, φ (algebraMap K E c) = algebraMap K' L (σ c)) {ι : Type*} [Fintype ι]
+    (hφ : ∀ c, φ (algebraMap K E c) = algebraMap K' L (σ c)) {ι : Type*} [Finite ι]
     (b : Basis ι K E) (b' : Basis ι K' L) (hb : ∀ i, b' i = φ (b i)) (z : E) (i : ι) :
     b'.repr (φ z) i = σ (b.repr z i) := by
+  have := Fintype.ofFinite ι
   conv_lhs => rw [← b.sum_repr z]
   have : φ (∑ j, b.repr z j • b j) = ∑ j, σ (b.repr z j) • b' j := by
     simp only [map_sum, Algebra.smul_def, map_mul, hφ, hb]
@@ -55,9 +56,11 @@ theorem repr_map_eq_of_basis {K K' E L : Type*} [CommRing K] [CommRing K'] [Comm
 `K'`-basis of `L`, compatibly with `σ : K → K'`, then `N_{L/K'}(φ x) = σ N_{E/K}(x)`. -/
 theorem algebraNorm_map_eq_of_basis {K K' E L : Type*} [CommRing K] [CommRing K'] [CommRing E]
     [CommRing L] [Algebra K E] [Algebra K' L] (σ : K →+* K') (φ : E →+* L)
-    (hφ : ∀ c, φ (algebraMap K E c) = algebraMap K' L (σ c)) {ι : Type*} [Fintype ι]
-    [DecidableEq ι] (b : Basis ι K E) (b' : Basis ι K' L) (hb : ∀ i, b' i = φ (b i)) (x : E) :
+    (hφ : ∀ c, φ (algebraMap K E c) = algebraMap K' L (σ c)) {ι : Type*} [Finite ι]
+    (b : Basis ι K E) (b' : Basis ι K' L) (hb : ∀ i, b' i = φ (b i)) (x : E) :
     Algebra.norm K' (φ x) = σ (Algebra.norm K x) := by
+  classical
+  have := Fintype.ofFinite ι
   rw [Algebra.norm_eq_matrix_det b, Algebra.norm_eq_matrix_det b', RingHom.map_det]
   congr 1
   ext i j
