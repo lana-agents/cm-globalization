@@ -4,11 +4,33 @@ CM globalization of finite p-adic fields.
 
 ## Status
 
-**Not started.** The repository is the initial project scaffold (a single commit,
-2026-07-20). The library `CmGlobalization` contains only the placeholder module
-`CmGlobalization/Basic.lean`, which has no declarations: there are no definitions or theorems yet
-(and so no `sorry`, `axiom` or `admit`). Everything under *Goals* below is planned, not
-formalised.
+**Complete** for the scope described in *Goals* (branch `wp-cm`, merged to `main`). The library
+contains no `sorry`, `admit` or `axiom`; the main theorems depend only on `propext`,
+`Classical.choice` and `Quot.sound`, and `lake build --wfail` passes.
+
+Main result, `CmGlobalization.exists_cmField_globalization` (`CmGlobalization/Main.lean`): for a
+prime `p` and a finite extension `L/ℚ_p` (`[Field L] [CharZero L] [Algebra ℚ_[p] L]
+[FiniteDimensional ℚ_[p] L]`; `CharZero L` is automatic, see `charZero_of_padic`) there is
+`F : IntermediateField ℚ L` with
+
+* `NumberField F` and `NumberField.IsCMField F`;
+* the maximal real subfield `F⁺ = maximalRealSubfield F` is dense in `L` for every topology on
+  `L` with `IsModuleTopology ℚ_[p] L`;
+* `Submodule.span ℚ_[p] F⁺ = ⊤` and `finrank ℚ F⁺ = finrank ℚ_[p] L`, i.e.
+  `ℚ_p ⊗_ℚ F⁺ ≅ L`: `p` has exactly one place `v₀` in `F⁺`, and `F⁺_{v₀} ≅ L`;
+* complex conjugation `c` of `F` fixes `F⁺`, and there is `γ ∈ F` with `γ² = -(8p - 1)` and
+  `γ ∈ ℚ_p ⊆ L` such that no `ℚ_p`-automorphism `τ` of `L` satisfies `τ ∘ ι = ι ∘ c` (`ι` the
+  inclusion). So the two embeddings `ι`, `ι ∘ c` of `F` into `L` (both with dense image) give two
+  distinct places of `F` above `v₀`, each with completion `L`: `v₀` splits in `F/F⁺`.
+
+"Completion `F_v ≅ L`" is expressed by an embedding `F ↪ L` with dense image (`L` is complete).
+The identification with Mathlib's `NumberField.FinitePlace` / `adicCompletion` is not
+formalised (see `Blueprint.md`, "Design choice"). Corollary `exists_isCMField_denseRange`: there
+is a CM number field `F : Type u` with a ring embedding `F →+* L` of dense range.
+
+The argument avoids Krasner's lemma: roots of nearby polynomials come from the inverse function
+theorem (`CmGlobalization/RootNearby.lean`), and primitive elements form an open set
+(`CmGlobalization/Generator.lean`). See `Blueprint.md` for the milestones and proof sketch.
 
 No lana-agents repository depends on this one: `iut` and its pinned lana-agents
 dependencies do not `require` it.
@@ -21,7 +43,7 @@ Prove the polynomial-approximation / Krasner step producing a number field `F` w
 
 This is the elementary globalization argument used in *Topics in Absolute Anabelian Geometry III*, Appendix (CM1), and is a prerequisite for later CM realizations of Lubin–Tate characters.
 
-Mathlib already contains Krasner-space infrastructure, number-field finite-place completions, and `NumberField.IsCMField`.
+Mathlib already contains Krasner-space infrastructure, number-field finite-place completions, and `NumberField.IsCMField`; this project uses `IsCMField.ofCMExtension`, the spectral norm, the inverse function theorem and Hensel's lemma for `ℤ_p`.
 
 ## Established sources
 

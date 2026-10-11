@@ -123,7 +123,10 @@ theorem exists_sq_eq_one_sub_eight_mul (p : ℕ) [Fact p.Prime] :
   refine ⟨z, ?_⟩
   have : (z : ℚ_[p]) ^ 2 - (1 - 8 * p) = 0 := by
     have := congrArg ((↑) : ℤ_[p] → ℚ_[p]) hz
-    simp [F, map_ofNat] at this
+    simp only [eq_intCast, Int.cast_sub, Int.cast_one, Int.cast_mul, Int.cast_ofNat,
+      Int.cast_natCast, aeval_sub, map_pow, aeval_X, map_one, map_mul, map_ofNat, map_natCast,
+      PadicInt.coe_sub, PadicInt.coe_pow, PadicInt.coe_one, PadicInt.coe_mul,
+      PadicInt.coe_natCast, PadicInt.coe_zero, F] at this
     exact_mod_cast this
   linear_combination this
 
@@ -157,7 +160,8 @@ theorem exists_generator_root_real (p : ℕ) [Fact p.Prime] (L : Type*) [Nontriv
   have hW := eventually_exists_root a hα hα' hU
   -- the totally split polynomial
   set ch : Fin n → ℚ := fun i ↦ (splitPoly n).coeff i
-  have hch : splitPoly n = monicOf ch := Monic.eq_monicOf (splitPoly_monic n) (natDegree_splitPoly n)
+  have hch : splitPoly n = monicOf ch :=
+    Monic.eq_monicOf (splitPoly_monic n) (natDegree_splitPoly n)
   set castP : (Fin n → ℚ) → (Fin n → ℚ_[p]) := fun c i ↦ algebraMap ℚ ℚ_[p] (c i)
   set castR : (Fin n → ℚ) → (Fin n → ℝ) := fun c i ↦ algebraMap ℚ ℝ (c i)
   set Φ : ℚ_[p] × (Fin n → ℚ_[p]) → (Fin n → ℚ_[p]) := fun x ↦ (1 - x.1) • x.2 + x.1 • castP ch

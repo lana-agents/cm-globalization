@@ -7,12 +7,14 @@ version: "v0.4"
 project:
   name: "cm-globalization"
   description: >-
-    Planned Lean 4 / Mathlib formalization of the globalization of a finite extension L/ℚ_p to a CM number
+    Lean 4 / Mathlib formalization of the globalization of a finite extension L/ℚ_p to a CM number
     field with a specified p-adic completion: the polynomial-approximation / Krasner step producing a number
     field F with a place v such that F_v ≃ L, archimedean signatures by weak approximation, and passage to a
     CM extension in which p has the desired splitting behaviour (Topics in Absolute Anabelian Geometry III,
     Appendix, CM1).
-    The repository is currently an empty scaffold: no definitions or theorems yet.
+    Complete: CmGlobalization.exists_cmField_globalization proves that every finite extension L of ℚ_p
+    contains a CM number field F whose maximal real subfield F⁺ is dense in L with ℚ_p ⊗ F⁺ ≅ L, and whose
+    place above p splits in F/F⁺; the completion is expressed by a dense embedding F ↪ L.
   authors:
     - "Claude (Anthropic)"
     - "LANA Project"
@@ -23,11 +25,11 @@ project:
 sources:
   - title: "Krasner's lemma and weak approximation"
     type: "textbook material"
-    note: "As in standard algebraic-number-theory texts. Planned reference (README, Established sources); nothing is formalised yet."
+    note: "As in standard algebraic-number-theory texts. Krasner's lemma is replaced by the inverse function theorem plus openness of primitive elements; weak approximation for ℚ at {p, ∞} is done by hand."
   - title: "Complex Multiplication"
     authors: ["Serge Lang"]
     type: "book"
-    note: "Planned reference (README, Established sources); nothing is formalised yet."
+    note: "Background reference (README, Established sources)."
 
 related_formalizations:
   - id: "https://github.com/lana-agents/iut"
@@ -39,11 +41,25 @@ classification:
   msc2020: ["11R21", "11S20", "11G15"]
 
 status:
-  scope: "not started (scaffold only)"
+  scope: "complete (CM globalization of finite extensions of ℚ_p, completion expressed by a dense embedding)"
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: []
-  main_results: []
+  main_results:
+    - name: "CmGlobalization.exists_cmField_globalization"
+      file: "CmGlobalization/Main.lean"
+      note: >-
+        F ⊆ L CM number field; F⁺ dense in L, spans L over ℚ_p, [F⁺ : ℚ] = [L : ℚ_p]; √-(8p-1) ∈ F ∩ ℚ_p and the
+        inclusion and its conjugate twist are not related by a ℚ_p-automorphism of L (the place splits in F/F⁺).
+    - name: "CmGlobalization.exists_isCMField_denseRange"
+      file: "CmGlobalization/Main.lean"
+      note: "A CM number field F : Type u with a ring embedding F →+* L of dense range."
+    - name: "CmGlobalization.exists_generator_root_real"
+      file: "CmGlobalization/Approximation.lean"
+      note: "Primitive element of L/ℚ_p that is a root of a rational polynomial of degree [L : ℚ_p] with only real roots."
+    - name: "CmGlobalization.eventually_exists_root"
+      file: "CmGlobalization/RootNearby.lean"
+      note: "Simple roots persist under perturbation of the coefficients (inverse function theorem)."
 
 automation:
   methods:
@@ -60,14 +76,16 @@ automation:
     Claude was the coding agent.
 
 fidelity:
-  divergences: "None yet: nothing has been formalised."
+  divergences: >-
+    F_v ≃ L is stated as an embedding F ↪ L with dense image (L complete), not via Mathlib's
+    NumberField.FinitePlace / adicCompletion. The splitting of the place is stated as: γ = √-(8p-1) ∈ F ∩ ℚ_p and
+    no ℚ_p-automorphism of L intertwines the inclusion with its twist by complex conjugation.
 
 review:
   status: "agent-reviewed"
   reviewers: ["Claude (Anthropic)"]
   notes: >-
     The formalization has only been reviewed by Claude; it has not been reviewed by a human.
-    The repository is an empty scaffold (a placeholder module with no declarations), so there is
-    nothing to check yet.
+    Statements were checked against AbsTopIII Appendix (CM1) by Claude only.
 
 acknowledgements: "Built on Mathlib (Apache-2.0)."

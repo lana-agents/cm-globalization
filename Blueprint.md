@@ -22,19 +22,29 @@ Let `p` be a prime and `L` a finite extension of `ℚ_p`
 
 "Completion `F_v ≅ L`" is expressed as "`F ↪ L` with dense image" (`L` is complete, so `L` is
 the completion of `F` for the induced absolute value). Mathlib's `FinitePlace` /
-`adicCompletion` objects are not used (see "Not done" below).
+`adicCompletion` objects are not used (see "Design choice" below).
 
 ## Milestones
 
-| # | Milestone | File | Status |
-|---|-----------|------|--------|
-| M0 | `monicOf c = X^n + ∑ c_i X^i`: degree, monicity, evaluation, maps | `MonicOf.lean` | planned |
-| M1 | Roots of nearby polynomials (inverse function theorem over any complete field) | `RootNearby.lean` | planned |
-| M2 | Elements generating `L/ℚ_p` form an open set; subalgebras containing a generator are dense | `Generator.lean` | planned |
-| M3 | Real roots ⇒ totally real; `x² = -d` impossible in totally real fields | `RealRoots.lean` | planned |
-| M4 | Approximation: `β ∈ L` generating `L/ℚ_p`, root of a rational polynomial with `n` real roots | `Approximation.lean` | planned |
-| M5 | `-(8p-1)` is a square in `ℚ_p` (Hensel) | `Approximation.lean` | planned |
-| M6 | CM packaging and main theorem | `Main.lean` | planned |
+All milestones are done (no `sorry`, no axioms beyond `propext`, `Classical.choice`,
+`Quot.sound`; `lake build --wfail` passes).
+
+* **M0** (done) `monicOf c = X^n + ∑ c_i X^i`: degree, monicity, evaluation, maps —
+  `CmGlobalization/MonicOf.lean`.
+* **M1** (done) roots of nearby polynomials via the inverse function theorem over any complete
+  nontrivially normed field: `eventually_exists_root` — `CmGlobalization/RootNearby.lean`.
+* **M2** (done) primitive elements of `L/K` form an open set
+  (`isOpen_setOf_adjoin_simple_eq_top`); a `ℚ`-subalgebra of `L/ℚ_p` containing a primitive
+  element is dense (`dense_of_mem_of_adjoin_eq_top`) — `CmGlobalization/Generator.lean`.
+* **M3** (done) real roots ⇒ totally real (`isTotallyReal_adjoin_simple`); `x² = -d` impossible
+  in totally real fields; `√-d` ⇒ totally complex — `CmGlobalization/RealRoots.lean`.
+* **M4** (done) approximation: `exists_generator_root_real` — `CmGlobalization/Approximation.lean`.
+* **M5** (done) `1 - 8p` is a square in `ℚ_p` (Hensel): `exists_sq_eq_one_sub_eight_mul` —
+  `CmGlobalization/Approximation.lean`.
+* **M6** (done) CM packaging `cmField β γ = ℚ⟮β⟯ ⊔ ℚ⟮γ⟯` (`isCMField_cmField`,
+  `finrank_maximalRealSubfield_cmField`, `complexConj_gamma_ne`) —
+  `CmGlobalization/CMField.lean`; main theorem `exists_cmField_globalization` and corollary
+  `exists_isCMField_denseRange` — `CmGlobalization/Main.lean`.
 
 ## Proof sketch
 
@@ -57,8 +67,11 @@ the completion of `F` for the induced absolute value). Mathlib's `FinitePlace` /
   `IsCMField.ofCMExtension` gives `IsCMField F`; `E ≤ F⁺`, and `F⁺ ≅ E` gives the degree.
   Density: `F⁺` contains the `ℚ_p`-basis `1, β, …, β^{n-1}` of `L`, and `ℚ` is dense in `ℚ_p`.
 
-## Not done (out of scope of this package)
+## Design choice: how "`F_v ≅ L`" is expressed
 
-* Identification of the dense embedding with Mathlib's `NumberField.FinitePlace` /
-  `IsDedekindDomain.HeightOneSpectrum.adicCompletion` (an Ostrowski-type comparison of the
-  absolute value `x ↦ ‖ι x‖` with the `v`-adic one).
+The place `v` is encoded by the embedding `ι : F ↪ L` (the inclusion) with dense image; the
+place is `x ↦ ‖ι x‖` for any norm on `L` extending that of `ℚ_p`, and since `L` is complete it
+is the completion of `F` at that place. The package does not identify this with Mathlib's
+`NumberField.FinitePlace F` / `IsDedekindDomain.HeightOneSpectrum.adicCompletion` objects (that
+would be an Ostrowski-type comparison of `x ↦ ‖ι x‖` with a `v`-adic absolute value, plus
+uniqueness of completions); this is a possible follow-up, not needed for the statement above.

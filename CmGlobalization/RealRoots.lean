@@ -61,7 +61,8 @@ def ringHomToAlgHom {E : IntermediateField ℚ K} (ψ : E →+* ℂ) :
       exact RingHom.congr_fun (Subsingleton.elim (ψ.comp (algebraMap ℚ E)) (algebraMap ℚ ℂ)) r }
 
 @[simp]
-theorem ringHomToAlgHom_apply {E : IntermediateField ℚ K} (ψ : E →+* ℂ) (y : E) : ringHomToAlgHom ψ y = ψ y := rfl
+theorem ringHomToAlgHom_apply {E : IntermediateField ℚ K} (ψ : E →+* ℂ) (y : E) :
+    ringHomToAlgHom ψ y = ψ y := rfl
 
 /-- If all complex roots of the minimal polynomial of `x` over `ℚ` are real, then `ℚ⟮x⟯` is
 totally real. -/
